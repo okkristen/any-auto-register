@@ -377,22 +377,6 @@ const TAB_ITEMS = [
     ],
   },
   {
-    key: 'qwen',
-    label: 'Qwen',
-    icon: <ApiOutlined />,
-    sections: [
-      {
-        title: 'CPA 面板',
-        desc: '注册完成后自动上传到 CPA 管理平台',
-        fields: [
-          { key: 'qwen_cpa_enabled', label: '启用自动上传', type: 'boolean' },
-          { key: 'qwen_cpa_api_url', label: 'API URL', placeholder: 'https://your-cpa.example.com（留空则使用 ChatGPT CPA 地址）' },
-          { key: 'qwen_cpa_api_key', label: 'API Key', secret: true, placeholder: '留空则使用 ChatGPT CPA Key' },
-        ],
-      },
-    ],
-  },
-  {
     key: 'contribution',
     label: '贡献',
     icon: <PlusOutlined />,
@@ -587,7 +571,7 @@ function ConfigField({ field }: { field: FieldConfig }) {
   const isBooleanField = field.type === 'boolean'
   const helpText =
     field.key === 'default_executor'
-      ? '仅对支持的平台生效；ChatGPT、Cursor、Grok、Kiro、Tavily、Trae、Qwen 支持浏览器模式，OpenBlockLabs 仅支持纯协议。'
+      ? '仅对支持的平台生效；ChatGPT、Cursor、Grok、Kiro、Tavily 支持浏览器模式，OpenBlockLabs 仅支持纯协议。'
       : field.key === 'email_domain_rule_enabled'
       ? '仅 CF Worker 生效：开启后会校验域名级数，以及域名至少包含 2 个字母和 2 个数字。'
       : field.key === 'email_domain_level_count'
@@ -1834,10 +1818,6 @@ export default function Settings() {
         data.sub2api_enabled,
         Boolean(String(data.sub2api_api_url ?? '').trim() && String(data.sub2api_api_key ?? '').trim()),
       )
-      data.qwen_cpa_enabled = resolveFeatureEnabledConfig(
-        data.qwen_cpa_enabled,
-        false, // 默认关闭，不依赖 cpa_api_url
-      )
       data.cfworker_domains = parseStoredDomainList(data.cfworker_domains)
       data.cfworker_enabled_domains = parseStoredDomainList(data.cfworker_enabled_domains)
       data.cfworker_random_subdomain = parseBooleanConfigValue(data.cfworker_random_subdomain)
@@ -1908,7 +1888,6 @@ export default function Settings() {
       }
       values.cpa_enabled = parseBooleanConfigValue(values.cpa_enabled)
       values.sub2api_enabled = parseBooleanConfigValue(values.sub2api_enabled)
-      values.qwen_cpa_enabled = parseBooleanConfigValue(values.qwen_cpa_enabled)
       values.cfworker_random_subdomain = parseBooleanConfigValue(values.cfworker_random_subdomain)
       values.cfworker_random_name_subdomain = parseBooleanConfigValue(values.cfworker_random_name_subdomain)
       values.contribution_enabled = parseBooleanConfigValue(values.contribution_enabled)
@@ -1932,7 +1911,6 @@ export default function Settings() {
         mail_import_source: values.mail_provider === 'applemail' ? 'applemail' : 'microsoft',
         cpa_enabled: values.cpa_enabled,
         sub2api_enabled: values.sub2api_enabled,
-        qwen_cpa_enabled: values.qwen_cpa_enabled,
         cfworker_domains: domains,
         cfworker_enabled_domains: enabledDomains,
         cfworker_domain: domains.length > 0 ? '' : values.cfworker_domain,

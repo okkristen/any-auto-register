@@ -10,8 +10,6 @@ const PLATFORM_EXECUTORS: Record<string, string[]> = {
   grok: ['protocol', 'headless', 'headed'],
   kiro: ['protocol', 'headless', 'headed'],
   tavily: ['protocol', 'headless', 'headed'],
-  trae: ['protocol', 'headless', 'headed'],
-  qwen: ['headless', 'headed'],
   openblocklabs: ['protocol'],
 }
 
